@@ -1,0 +1,56 @@
+@import "tailwindcss";
+
+/* ===== デザイントークン（白 × 赤） ===== */
+@theme {
+  --color-brand-50: #fff1f2;
+  --color-brand-100: #ffe1e3;
+  --color-brand-200: #ffc8cc;
+  --color-brand-300: #ffa1a8;
+  --color-brand-400: #fb6b76;
+  --color-brand-500: #ef3b48;
+  --color-brand-600: #d7212f; /* メイン：中国紅 */
+  --color-brand-700: #b41824;
+  --color-brand-800: #951823;
+  --color-brand-900: #7c1922;
+
+  --color-gold-400: #f5c451;
+  --color-gold-500: #e8a917;
+
+  --color-ink: #1f1f24;
+  --color-muted: #6b6b76;
+  --color-line: #f0e6e7;
+  --color-surface: #ffffff;
+  --color-canvas: #fbf8f8;
+
+  --font-sans:
+    "Hiragino Sans", "Hiragino Kaku Gothic ProN", "Noto Sans JP",
+    "PingFang SC", "Noto Sans SC", "Microsoft YaHei", system-ui, sans-serif;
+
+  --shadow-card: 0 1px 2px rgb(124 25 34 / 0.04), 0 8px 24px -12px rgb(124 25 34 / 0.18);
+  --shadow-nav: 0 -6px 24px -12px rgb(124 25 34 / 0.25);
+}
+
+:root {
+  color-scheme: light;
+}
+
+html,
+body {
+  background: var(--color-canvas);
+  color: var(--color-ink);
+}
+
+body {
+  font-family: var(--font-sans);
+  -webkit-tap-highlight-color: transparent;
+  overscroll-behavior-y: none;
+  overflow-x: clip;
+}
+
+/* iOS のセーフエリア対応 */
+.pb-safe {
+  padding-bottom: env(safe-area-inset-bottom);
+}
+.pt-safe {
+  padding-top: env(safe-area-inset-top);
+}
