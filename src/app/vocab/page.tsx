@@ -7,7 +7,7 @@ import { Stagger, StaggerItem } from "@/components/ui/Stagger";
 import { SavedWordCount } from "./SavedWordCount";
 import { VocabPreview } from "./VocabPreview";
 
-export const metadata: Metadata = { title: "単語帳" };
+export const metadata: Metadata = { title: "単語練習" };
 
 const STATS = [
   { label: "今日の復習", value: 0, icon: Repeat },
@@ -31,7 +31,7 @@ const MODES = [
 export default function VocabPage() {
   return (
     <>
-      <PageHeader title="単語帳" zh="生词本" pinyin="shēngcí běn" />
+      <PageHeader title="単語練習" zh="生词本" pinyin="shēngcí běn" />
 
       <Stagger className="flex flex-col gap-5 px-4 py-5">
         <StaggerItem className="grid grid-cols-3 gap-2">

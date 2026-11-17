@@ -1,7 +1,22 @@
 import type { Metadata, Viewport } from "next";
+import { Noto_Sans_JP, Noto_Sans_SC } from "next/font/google";
 import { BottomNav } from "@/components/BottomNav";
 import { Providers } from "@/components/Providers";
 import "./globals.css";
+
+/** 日本語 UI 用（漢字は日本の字形） */
+const notoSansJP = Noto_Sans_JP({
+  subsets: ["latin"],
+  variable: "--font-noto-jp",
+  display: "swap",
+});
+
+/** 中国語（簡体字）用。lang="zh-CN" の要素で使う */
+const notoSansSC = Noto_Sans_SC({
+  subsets: ["latin"],
+  variable: "--font-noto-sc",
+  display: "swap",
+});
 
 export const metadata: Metadata = {
   title: {
@@ -9,7 +24,7 @@ export const metadata: Metadata = {
     template: "%s | 好朋友 中国語",
   },
   description:
-    "HSK対策と実践的な中国語学習のためのモバイルファースト学習アプリ",
+    "HSK対策の単語練習を中心にした、モバイルファーストの中国語学習アプリ",
   appleWebApp: {
     capable: true,
     title: "好朋友 中国語",
@@ -26,7 +41,10 @@ export const viewport: Viewport = {
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
-    <html lang="ja" className="h-full antialiased">
+    <html
+      lang="ja"
+      className={`${notoSansJP.variable} ${notoSansSC.variable} h-full antialiased`}
+    >
       <body className="min-h-dvh">
         <Providers>
           {/* スマホ幅のアプリシェル（PC では中央寄せ） */}

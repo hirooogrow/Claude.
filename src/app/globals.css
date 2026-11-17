@@ -22,9 +22,9 @@
   --color-surface: #ffffff;
   --color-canvas: #fbf8f8;
 
-  --font-sans:
-    "Hiragino Sans", "Hiragino Kaku Gothic ProN", "Noto Sans JP",
-    "PingFang SC", "Noto Sans SC", "Microsoft YaHei", system-ui, sans-serif;
+  /* フォントは Noto Sans に統一（next/font で自己ホスト） */
+  --font-sans: var(--font-noto-jp), var(--font-noto-sc), sans-serif;
+  --font-zh: var(--font-noto-sc), var(--font-noto-jp), sans-serif;
 
   --shadow-card: 0 1px 2px rgb(124 25 34 / 0.04), 0 8px 24px -12px rgb(124 25 34 / 0.18);
   --shadow-nav: 0 -6px 24px -12px rgb(124 25 34 / 0.25);
@@ -45,6 +45,11 @@ body {
   -webkit-tap-highlight-color: transparent;
   overscroll-behavior-y: none;
   overflow-x: clip;
+}
+
+/* 中国語は簡体字の字形で表示する（lang="zh-CN" を付けた要素） */
+:lang(zh) {
+  font-family: var(--font-zh);
 }
 
 /* iOS のセーフエリア対応 */

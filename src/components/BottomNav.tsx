@@ -14,7 +14,10 @@ export function BottomNav() {
       aria-label="メインナビゲーション"
       className="pb-safe fixed inset-x-0 bottom-0 z-40 mx-auto max-w-md border-t border-line bg-white/95 shadow-nav backdrop-blur-md"
     >
-      <ul className="grid h-16 grid-cols-4">
+      <ul
+        className="grid h-16"
+        style={{ gridTemplateColumns: `repeat(${TABS.length}, minmax(0, 1fr))` }}
+      >
         {TABS.map(({ href, label, icon: Icon }) => {
           const active = pathname === href || pathname.startsWith(`${href}/`);
           return (

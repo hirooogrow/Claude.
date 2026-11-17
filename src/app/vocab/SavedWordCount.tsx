@@ -3,7 +3,7 @@
 import { motion } from "framer-motion";
 import { vocabStore } from "@/lib/stores";
 
-/** My単語リストの登録数（チャットなどで追加すると即反映） */
+/** My単語リストの登録数（登録すると即反映） */
 export function SavedWordCount() {
   const words = vocabStore.useStore();
   return (

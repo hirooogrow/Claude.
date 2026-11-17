@@ -16,7 +16,9 @@ export function PageHeader({ title, zh, pinyin, right }: PageHeaderProps) {
             {title}
           </h1>
           <p className="truncate text-[11px] leading-tight text-muted">
-            <span className="font-semibold text-brand-600">{zh}</span>
+            <span lang="zh-CN" className="font-semibold text-brand-600">
+              {zh}
+            </span>
             <span className="ml-1.5">{pinyin}</span>
           </p>
         </div>

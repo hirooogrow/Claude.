@@ -62,6 +62,7 @@ export default function MapPage() {
                   {city.unlocked ? <MapPin size={14} /> : <Lock size={12} />}
                 </span>
                 <span
+                  lang="zh-CN"
                   className={`mt-0.5 text-[10px] font-bold ${
                     city.unlocked ? "text-brand-700" : "text-muted"
                   }`}
@@ -95,6 +96,7 @@ export default function MapPage() {
             {CITIES.map((city) => (
               <div key={city.name} className="flex items-center gap-3 px-4 py-3">
                 <span
+                  lang="zh-CN"
                   className={`flex h-9 w-9 items-center justify-center rounded-xl text-sm font-bold ${
                     city.unlocked ? "bg-brand-600 text-white" : "bg-zinc-100 text-muted"
                   }`}
@@ -102,7 +104,9 @@ export default function MapPage() {
                   {city.name[0]}
                 </span>
                 <div className="flex-1">
-                  <p className="text-sm font-bold text-ink">{city.name}</p>
+                  <p lang="zh-CN" className="text-sm font-bold text-ink">
+                    {city.name}
+                  </p>
                   <p className="text-[11px] text-muted">{city.pinyin}</p>
                 </div>
                 {city.unlocked ? (

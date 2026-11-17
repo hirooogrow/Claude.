@@ -74,7 +74,9 @@ export default function HskPage() {
                   <Icon size={18} />
                 </span>
                 <div className="flex-1">
-                  <p className="text-sm font-bold text-ink">{label}</p>
+                  <p lang="zh-CN" className="text-sm font-bold text-ink">
+                    {label}
+                  </p>
                   <p className="text-[11px] text-muted">{ja}・解説つき</p>
                 </div>
                 <ChevronRight size={18} className="text-muted/60" />

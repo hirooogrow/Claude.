@@ -75,6 +75,7 @@ export function VocabPreview() {
                 initial={{ opacity: 0, scale: 0.9 }}
                 animate={{ opacity: 1, scale: 1 }}
                 exit={{ opacity: 0, scale: 0.9 }}
+                lang="zh-CN"
                 className="text-5xl font-bold text-ink"
               >
                 学习
