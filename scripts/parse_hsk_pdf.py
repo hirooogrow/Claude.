@@ -1,37 +1,21 @@
-"""Parse `pdftotext -layout` output of the HSK vocab PDFs into JSON word lists.
+"""Extract the HSK 3.0 vocab-list PDFs (Chinese Language Institute layout) into JSON.
+
+The English meanings are only used as the basis for the Japanese translations in
+scripts/ja/*.tsv; the app data is built by scripts/build_hsk_data.py.
 
 Usage:
-  pdftotext -layout <HSK4級単語リスト.pdf>   <txt>/hsk4.txt   # Japanese meanings (HSK 2.0, 600 words)
-  pdftotext -layout <hsk-3-vocab-list.pdf>   <txt>/hsk3.txt   # English meanings (HSK 3.0, words 501-1000)
-  pdftotext -layout <hsk-5-vocab-list.pdf>   <txt>/hsk5.txt   # English meanings (HSK 3.0, words 2001-3600)
-  python3 scripts/parse_hsk_pdf.py <txt> src/data/hsk
+  pdftotext -layout hsk-3-vocab-list-hsk-v3.pdf <txt>/hsk3.txt   # words 501-1000
+  pdftotext -layout hsk-4-vocab-list-hsk-v3.pdf <txt>/hsk4.txt   # words 1001-2000
+  pdftotext -layout hsk-5-vocab-list-hsk-v3.pdf <txt>/hsk5.txt   # words 2001-3600
+  python3 scripts/parse_hsk_pdf.py <txt> <out>    # writes <out>/hsk{3,4,5}.en.json
 """
 import json, re, sys, unicodedata
 
-PINYIN_OK = re.compile(r"^[A-Za-zāáǎàēéěèīíǐìōóǒòūúǔùǖǘǚǜüÜĀÁǍÀĒÉĚÈĪÍǏÌŌÓǑÒŪÚǓÙ'’〜 ·\-]+$")
+PINYIN_OK = re.compile(r"^[A-Za-zāáǎàēéěèīíǐìōóǒòūúǔùǖǘǚǜüÜĀÁǍÀĒÉĚÈĪÍǏÌŌÓǑÒŪÚǓÙ'’〜 ·/\-ǹńňḿ]+$")
 HAN = re.compile(r"[㐀-鿿]")
-
-def fix_radicals(s):
-    """Word-exported PDFs sometimes use Kangxi radical code points (e.g. ⼤ U+2F24) for normal hanzi."""
-    return "".join(unicodedata.normalize("NFKC", c) if 0x2E80 <= ord(c) <= 0x2FDF else c for c in s)
 
 def clean(s):
     return re.sub(r"\s+", " ", s).strip()
-
-def parse_ja(path):
-    """HSK4 list (Japanese): No  中国語  ピンイン  日本語"""
-    words = []
-    seen = set()
-    for line in open(path, encoding="utf-8"):
-        m = re.match(r"^\s*(\d{1,4})\s+(\S+)\s+(.+?)\s{2,}(\S.*)$", fix_radicals(line.rstrip("\n")))
-        if not m or not HAN.search(m.group(2)):
-            continue
-        no, hanzi, pinyin, meaning = m.groups()
-        if int(no) in seen:  # a row repeated across a page break
-            continue
-        seen.add(int(no))
-        words.append({"no": int(no), "hanzi": hanzi, "pinyin": clean(pinyin), "meaning": clean(meaning)})
-    return words
 
 def parse_en(path):
     """HSK 3.0 lists (English): No  Chinese  Pinyin  English  [POS]; English may wrap onto following lines."""
@@ -88,11 +72,14 @@ def validate(words, first, last, name):
         print("  ", p, file=sys.stderr)
     return not problems
 
+DECKS = {"hsk3": (501, 1000), "hsk4": (1001, 2000), "hsk5": (2001, 3600)}
+
 if __name__ == "__main__":
     src, out = sys.argv[1], sys.argv[2]
-    hsk4 = parse_ja(f"{src}/hsk4.txt"); validate(hsk4, 1, 600, "hsk4")
-    hsk3 = parse_en(f"{src}/hsk3.txt"); validate(hsk3, 501, 1000, "hsk3")
-    hsk5 = parse_en(f"{src}/hsk5.txt"); validate(hsk5, 2001, 3600, "hsk5")
-    for name, ws in (("hsk3", hsk3), ("hsk4", hsk4), ("hsk5", hsk5)):
-        with open(f"{out}/{name}.json", "w", encoding="utf-8") as f:
-            f.write("[\n" + ",\n".join(json.dumps(w, ensure_ascii=False, separators=(",", ":")) for w in ws) + "\n]\n")
+    ok = True
+    for name, (first, last) in DECKS.items():
+        ws = parse_en(f"{src}/{name}.txt")
+        ok &= validate(ws, first, last, name)
+        with open(f"{out}/{name}.en.json", "w", encoding="utf-8") as f:
+            json.dump(ws, f, ensure_ascii=False, indent=0)
+    sys.exit(0 if ok else 1)

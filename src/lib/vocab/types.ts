@@ -7,7 +7,7 @@ export type Word = {
   hanzi: string;
   pinyin: string;
   meaning: string;
-  /** 品詞（HSK 3.0 リストのみ） */
+  /** 品詞（例: 名詞・動詞） */
   pos?: string;
 };
 
@@ -16,7 +16,8 @@ export type DeckMeta = {
   title: string;
   /** 例: HSK 3.0・2001〜3600語 */
   subtitle: string;
-  /** 意味の言語 */
-  meaningLang: "ja" | "en";
   total: number;
+  /** HSK 3.0 シラバスでの通し番号の範囲 */
+  firstNo: number;
+  lastNo: number;
 };

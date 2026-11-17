@@ -25,6 +25,9 @@ function deckStats(deck: DeckMeta, states: Record<string, CardState>, now: numbe
   let due = 0;
   for (const [id, state] of Object.entries(states)) {
     if (!id.startsWith(prefix)) continue;
+    // 以前の単語リスト（旧 HSK 2.0 の4級など）で記録した進捗は数えない
+    const no = Number(id.slice(prefix.length));
+    if (!(no >= deck.firstNo && no <= deck.lastNo)) continue;
     if (stageOf(state) === "mastered") mastered += 1;
     else learning += 1;
     if (isDue(state, now)) due += 1;
@@ -58,10 +61,7 @@ function DeckCard({ deck, stats }: { deck: DeckMeta; stats: DeckStats }) {
       <div className="flex items-start justify-between gap-3">
         <div>
           <h3 className="text-lg font-extrabold text-ink">{deck.title}</h3>
-          <p className="text-[11px] text-muted">
-            {deck.subtitle}
-            {deck.meaningLang === "en" && "・意味は英語"}
-          </p>
+          <p className="text-[11px] text-muted">{deck.subtitle}</p>
         </div>
         {stats.due > 0 ? (
           <motion.span

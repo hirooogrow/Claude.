@@ -9,10 +9,10 @@ const RAW: Record<DeckId, RawWord[]> = { hsk3, hsk4, hsk5 };
 
 export const DECK_IDS: readonly DeckId[] = ["hsk3", "hsk4", "hsk5"];
 
-const META: Record<DeckId, Omit<DeckMeta, "id" | "total">> = {
-  hsk3: { title: "HSK 3級", subtitle: "HSK 3.0・501〜1000語", meaningLang: "en" },
-  hsk4: { title: "HSK 4級", subtitle: "HSK 2.0・600語", meaningLang: "ja" },
-  hsk5: { title: "HSK 5級", subtitle: "HSK 3.0・2001〜3600語", meaningLang: "en" },
+const TITLES: Record<DeckId, string> = {
+  hsk3: "HSK 3級",
+  hsk4: "HSK 4級",
+  hsk5: "HSK 5級",
 };
 
 export function isDeckId(value: string): value is DeckId {
@@ -20,7 +20,17 @@ export function isDeckId(value: string): value is DeckId {
 }
 
 export function getDeckMeta(id: DeckId): DeckMeta {
-  return { id, ...META[id], total: RAW[id].length };
+  const words = RAW[id];
+  const firstNo = words[0].no;
+  const lastNo = words[words.length - 1].no;
+  return {
+    id,
+    title: TITLES[id],
+    subtitle: `HSK 3.0・${firstNo}〜${lastNo}語`,
+    total: words.length,
+    firstNo,
+    lastNo,
+  };
 }
 
 export function getAllDeckMeta(): DeckMeta[] {
