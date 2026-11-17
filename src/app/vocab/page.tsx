@@ -4,6 +4,7 @@ import { PageHeader } from "@/components/PageHeader";
 import { Card, ComingSoonBadge, SectionTitle } from "@/components/ui/Card";
 import { Pressable } from "@/components/ui/Pressable";
 import { Stagger, StaggerItem } from "@/components/ui/Stagger";
+import { SavedWordCount } from "./SavedWordCount";
 import { VocabPreview } from "./VocabPreview";
 
 export const metadata: Metadata = { title: "単語帳" };
@@ -37,7 +38,11 @@ export default function VocabPage() {
           {STATS.map(({ label, value, icon: Icon }) => (
             <Card key={label} className="flex flex-col items-center gap-1 py-3">
               <Icon size={18} className="text-brand-500" />
-              <span className="text-xl font-extrabold text-ink">{value}</span>
+              {label === "登録単語" ? (
+                <SavedWordCount />
+              ) : (
+                <span className="text-xl font-extrabold text-ink">{value}</span>
+              )}
               <span className="text-[10px] font-semibold text-muted">{label}</span>
             </Card>
           ))}

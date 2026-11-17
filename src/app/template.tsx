@@ -36,7 +36,15 @@ export default function Template({ children }: { children: React.ReactNode }) {
   return (
     <motion.div
       initial={{ opacity: 0, x: direction * 28, y: direction === 0 ? 10 : 0, scale: 0.985, filter: "blur(6px)" }}
-      animate={{ opacity: 1, x: 0, y: 0, scale: 1, filter: "blur(0px)" }}
+      animate={{
+        opacity: 1,
+        x: 0,
+        y: 0,
+        scale: 1,
+        filter: "blur(0px)",
+        // 終了後に filter を外す（残すと子孫の position: fixed / z-index が閉じ込められる）
+        transitionEnd: { filter: "none" },
+      }}
       transition={{ duration: 0.42, ease: [0.22, 1, 0.36, 1] }}
       className="flex min-h-full flex-1 flex-col"
     >
