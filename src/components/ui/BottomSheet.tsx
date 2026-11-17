@@ -1,12 +1,9 @@
 "use client";
 
 import { AnimatePresence, motion, type PanInfo } from "framer-motion";
-import { useEffect, useSyncExternalStore } from "react";
+import { useEffect } from "react";
 import { createPortal } from "react-dom";
-
-const noopSubscribe = () => () => {};
-/** クライアントでマウント済みか（ポータル先の document.body はクライアントにしかない） */
-const useIsClient = () => useSyncExternalStore(noopSubscribe, () => true, () => false);
+import { useIsClient } from "@/lib/useIsClient";
 
 type BottomSheetProps = {
   open: boolean;
